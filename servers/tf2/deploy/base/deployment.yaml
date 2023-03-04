@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tf2-server
+  labels:
+    app: tf2-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tf2-server
+  template:
+    metadata:
+      labels:
+        app: tf2-server
+    spec:
+      containers:
+        - name: server
+          image: docker.io/grubertech/teamfortress2:latest
+          envFrom:
+            - configMapRef:
+                name: tf2-cm
+            - secretRef:
+                name: tf2-vars
+          ports:
+            - name: main
+              containerPort: 27015
+              protocol: TCP
+            - name: main-udp
+              containerPort: 27015
+              protocol: UDP
+            - name: tv
+              containerPort: 27020
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 720Mi
+          volumeMounts:
+            - name: config-storage
+              mountPath: /home/steam
+      volumes:
+        - name: config-storage
+          persistentVolumeClaim:
+            claimName: tf2-storage

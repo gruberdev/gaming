@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tf2-server
+  labels:
+    app: tf2-server
+spec:
+  selector:
+    app: tf2-server
+  ports:
+    - name: main
+      port: 27015
+      targetPort: 27015
+      protocol: TCP
+    - name: main-udp
+      port: 27015
+      targetPort: 27015
+      protocol: UDP
+    - name: tv
+      port: 27020
+      targetPort: 27020
+      protocol: UDP
+  type: ClusterIP

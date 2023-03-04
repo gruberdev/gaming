@@ -1,0 +1,20 @@
+version: '3'
+
+silent: true
+
+tasks:
+  games:tf2:build:
+    dir: servers/tf2/docker
+    cmds:
+      - docker build -t docker.io/grubertech/teamfortress2:latest .
+
+  games:tf2:push:
+    dir: servers/tf2/docker
+    cmds:
+      - docker push docker.io/grubertech/teamfortress2:latest
+
+  games:tf2:
+    dir: servers/tf2/docker
+    cmds:
+      - task: games:tf2:build
+      - task: games:tf2:push

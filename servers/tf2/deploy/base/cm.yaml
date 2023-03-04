@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tf2-cm
+data:
+  SRCDS_PORT: "27015"
+  SRCDS_TV_PORT: "27020"
+  SRCDS_IP: "0"
+  SRCDS_FPSMAX: "300"
+  SRCDS_MAXPLAYERS: "14"
+  SRCDS_REGION: "3"
+  SRCDS_STARTMAP: "ctf_2fort"
+  SRCDS_HOSTNAME: "Kubernetes TF2"
