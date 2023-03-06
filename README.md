@@ -1,2 +1,2 @@
-![Alt text](./controllers_brief.svg)
+![Alt text](./docs/example.svg.svg)
 <img src="./docs/example.svg">
