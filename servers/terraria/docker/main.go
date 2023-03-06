@@ -32,6 +32,7 @@ func (i *interceptor) Write(p []byte) (n int, err error) {
 // main intercepts the stdout of the Terraria gameserver and uses it
 // to determine if the game server is ready or not.
 func main() {
+	fmt.Println(">>> Initializing server...")
 	input := flag.String("i", "", "path to server_linux.sh or server_windows.bat")
 	args := flag.String("args", "", "additional arguments to pass to the script")
 	enablePlayerTracking := flag.Bool("player-tracking", true, "If true, player tracking will be enabled.")

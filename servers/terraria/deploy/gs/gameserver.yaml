@@ -1,0 +1,61 @@
+apiVersion: "agones.dev/v1"
+kind: GameServer
+metadata:
+  name: "terraria-vanilla-gds"
+spec:
+  container: terraria-vanilla-gs
+  ports:
+  - name: default
+    portPolicy: Dynamic
+    container: terraria-vanilla-gs
+    containerPort: 7777
+    protocol: TCPUDP
+  health:
+    disabled: false
+    initialDelaySeconds: 200
+    periodSeconds: 5
+    failureThreshold: 3
+  sdkServer:
+    logLevel: Info
+    grpcPort: 9357
+    httpPort: 9358
+  players:
+    initialCapacity: 16
+  template:
+    metadata:
+      labels:
+        app: terraria
+    spec:
+      containers:
+        - name: terraria-vanilla-gs
+          image: docker.io/grubertech/terraria:latest
+          envFrom:
+            - configMapRef:
+                name: terraria-cm
+          ports:
+            - name: gate1
+              containerPort: 7777
+              protocol: TCP
+            - name: gate2
+              containerPort: 7777
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          volumeMounts:
+            - name: config-volume
+              mountPath: /server/Linux/serverconfig.txt
+              subPath: serverconfig.txt
+            - name: worlds-data
+              mountPath: /root/.local/share/Terraria/Worlds
+      volumes:
+        - name: config-volume
+          configMap:
+            name: terraria-cm
+        - name: worlds-data
+          persistentVolumeClaim:
+            claimName: terraria-worlds

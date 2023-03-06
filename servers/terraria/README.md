@@ -1,5 +1,24 @@
 ## Terraria
 
+- How to request help about CLI commands regarding Terraria
+```bash
+task terraria:help
+```
+---
+
+## Environment Variables
+
+| <h4>Variable name</h3>    | <h4>**Default Value**</h4> | <h4>**Description**</h4> |
+|------------------------|-------------------|-----------------|
+| TERRARIA_WORLDNAME        |                 |                 |
+| TERRARIA_WORLDSEED        |                 |                 |
+| TERRARIA_USECONFIGFILE    |                 |                 |
+| TERRARIA_PASS             |                 |                 |
+| TERRARIA_MOTD             |                 |                 |
+| TERRARIA_MAXPLAYERS       |                 |                 |
+| TERRARIA_WORLDSIZE        |                 |                 |
+| TERRARIA_SHUTDOWN_MESSAGE |                 |                 |
+|                           |                 |                 |
 <br>
 <br>
 

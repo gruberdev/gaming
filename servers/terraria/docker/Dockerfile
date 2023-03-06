@@ -16,32 +16,34 @@ ARG TERRARIA_VERSION=1449
 ENV TERRARIA_SHUTDOWN_MESSAGE="Closing active connections..."
 
 # The following environment variables will configure common settings for the Terraria server.
-ENV TERRARIA_MOTD="A Terraria server powered by Docker!"
-ENV TERRARIA_PASS="N/A"
-ENV TERRARIA_MAXPLAYERS="8"
-ENV TERRARIA_WORLDNAME="TestLand"
+ENV TERRARIA_MOTD="A server powered by Kubernetes and Agones!"
+ENV TERRARIA_PASS=""
+ENV TERRARIA_MAXPLAYERS="16"
+ENV TERRARIA_WORLDNAME="Example"
 ENV TERRARIA_WORLDSIZE="3"
 ENV TERRARIA_WORLDSEED="Docker"
-
+ENV TERRARIA_USECONFIGFILE="No"
 # Loading a configuration file expects a proper Terraria config file to be mapped to /root/terraria-server/serverconfig.txt
 # Set this to "Yes" if you would rather use a config file instead of the above settings.
-ENV TERRARIA_USECONFIGFILE="No"
+
 
 RUN apt-get update
-RUN apt-get install -y wget unzip tmux bash
+RUN apt-get install -y \
+            wget unzip tmux bash \
+            && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /root/terraria-server
+WORKDIR /server
 
-RUN wget https://terraria.org/api/download/pc-dedicated-server/terraria-server-${TERRARIA_VERSION}.zip
-RUN unzip -o terraria-server-${TERRARIA_VERSION}.zip
-RUN rm terraria-server-${TERRARIA_VERSION}.zip
+RUN wget https://terraria.org/api/download/pc-dedicated-server/terraria-server-${TERRARIA_VERSION}.zip \
+    -O terraria.zip && \
+    unzip -o terraria.zip && \
+    mv ${TERRARIA_VERSION}/* /server && \
+    rm terraria.zip && \
+    mkdir -p /root/.local/share/Terraria/Worlds
 
-RUN mkdir -p /root/.local/share/Terraria/Worlds
-
-COPY ./docker/entrypoint.sh .
+COPY entrypoint.sh /tmp/entrypoint.sh
 COPY --from=builder /go/src/examples/terraria /tmp
 
-RUN chmod +x entrypoint.sh /tmp/wrapper /root/terraria-server/${TERRARIA_VERSION}/Linux/TerrariaServer.bin.x86_64
+RUN chmod +x /tmp/entrypoint.sh /tmp/wrapper /server/Linux/TerrariaServer.bin.x86_64
 
-ENTRYPOINT /tmp/wrapper -i /root/terraria-server/entrypoint.sh
-
+ENTRYPOINT /tmp/wrapper -i /tmp/entrypoint.sh
