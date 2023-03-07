@@ -4,6 +4,7 @@ silent: true
 
 includes:
   terraria: ./tasks/terraria.yaml
+  factorio: ./tasks/factorio.yaml
 
 tasks:
   tf2:build:

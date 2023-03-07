@@ -39,7 +39,6 @@ tasks:
       - task: delete:fleet
       - task: deploy:fleet
 
-
   go:
     dir: servers/terraria/docker
     cmds:
