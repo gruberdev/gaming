@@ -1,7 +1,7 @@
 apiVersion: "agones.dev/v1"
 kind: Fleet
 metadata:
-  name: terraria-vanilla
+  name: factorio
 spec:
   # the number of GameServers to keep Ready or Allocated in this Fleet
   replicas: 4
@@ -21,18 +21,18 @@ spec:
   template:
     metadata:
       labels:
-        game: terraria
+        game: factorio
     spec:
-      container: terraria-vanilla-fleet
+      container: factorio-fleet
       ports:
       - name: default
         portPolicy: Dynamic
-        container: terraria-vanilla-fleet
-        containerPort: 7777
-        protocol: TCP
+        container: factorio-fleet
+        containerPort: 34197
+        protocol: UDP
       health:
         disabled: false
-        initialDelaySeconds: 200
+        initialDelaySeconds: 45
         periodSeconds: 5
         failureThreshold: 3
       sdkServer:
@@ -40,39 +40,48 @@ spec:
         grpcPort: 9357
         httpPort: 9358
       players:
-        initialCapacity: 16
+        initialCapacity: 32
       template:
         metadata:
           labels:
-            app: terraria
+            app: factorio
         spec:
           containers:
-            - name: terraria-vanilla-fleet
-              image: docker.io/grubertech/terraria:latest
+            - name: factorio-fleet
+              image: docker.io/grubertech/factorio:latest
               envFrom:
                 - configMapRef:
-                    name: terraria-cm
+                    name: factorio-fleet-config
               ports:
-                - name: gate
-                  containerPort: 7777
+                - name: main
+                  containerPort: 34197
+                  protocol: UDP
+                - name: rcon
+                  containerPort: 27015
                   protocol: TCP
               resources:
                 requests:
-                  cpu: 250m
-                  memory: 512Mi
+                  cpu: 200m
+                  memory: 400Mi
                 limits:
-                  cpu: 2000m
-                  memory: 2Gi
+                  cpu: 450m
+                  memory: 750Mi
               volumeMounts:
-                - name: config-volume
-                  mountPath: /server/Linux/serverconfig.txt
-                  subPath: serverconfig.txt
-                - name: worlds-data
-                  mountPath: /root/.local/share/Terraria/Worlds
+                - name: mapgen-config
+                  mountPath: /config/map-gen-settings.json
+                  subPath: map-gen-settings.json
+                - name: map-config
+                  mountPath: /config/map-settings.json
+                  subPath: map-settings.json
+                - name: data-storage
+                  mountPath: /factorio
           volumes:
-            - name: config-volume
+            - name: map-config
               configMap:
-                name: terraria-cm
-            - name: worlds-data
+                name: factorio-fleet-config
+            - name: mapgen-config
+              configMap:
+                name: factorio-fleet-config
+            - name: data-storage
               persistentVolumeClaim:
-                claimName: terraria-fleet-worlds
+                claimName: factorio-fleet-data

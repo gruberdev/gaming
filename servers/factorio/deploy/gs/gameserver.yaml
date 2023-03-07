@@ -12,7 +12,7 @@ spec:
     protocol: UDP
   health:
     disabled: false
-    initialDelaySeconds: 200
+    initialDelaySeconds: 45
     periodSeconds: 5
     failureThreshold: 3
   sdkServer:
@@ -41,11 +41,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 200m
+              memory: 400Mi
             limits:
-              cpu: 1000m
-              memory: 1Gi
+              cpu: 450m
+              memory: 750Mi
           volumeMounts:
             - name: mapgen-config
               mountPath: /config/map-gen-settings.json
@@ -53,6 +53,8 @@ spec:
             - name: map-config
               mountPath: /config/map-settings.json
               subPath: map-settings.json
+            - name: data-storage
+              mountPath: /factorio
       volumes:
         - name: map-config
           configMap:
@@ -60,3 +62,6 @@ spec:
         - name: mapgen-config
           configMap:
             name: factorio-config
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: factorio-data
