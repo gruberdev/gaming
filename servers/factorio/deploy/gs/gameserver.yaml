@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: factorio-server
-          image: docker.io/grubertech/factorio:latest
+          image: docker.io/grubertech/factorio:v1.1.76
           envFrom:
             - configMapRef:
                 name: factorio-config
