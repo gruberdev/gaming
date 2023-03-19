@@ -1,1 +1,1 @@
-<img src="./docs/table.svg" alt="Game integration table">
+<img src="./docs/table.svg" alt="Game integration table" width="1100" height="1900">
