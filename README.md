@@ -1,2 +1,1 @@
-![Alt text](./docs/example.svg)
-<img src="./docs/example.svg">
+<img src="./docs/table.svg" alt="Game integration table">
