@@ -9,7 +9,7 @@
 > - [Terraria Official website][website-uri]
 > - [Steam store page][steam-uri]
 
-### Getting started
+#### Getting started
 
 - To deploy a sample gameserver individually
 ```bash
