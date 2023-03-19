@@ -1,24 +1,33 @@
-### Factorio
+![](https://wiki.factorio.com/images/Factorio-logo.png)
 
+![][badge-img] &nbsp; ![][size-badge] &nbsp; ![][pulls-badge] &nbsp; ![][status-badge]
 
-- How to request help about CLI commands regarding this game:
+> *Factorio* is a game about building and creating automated factories to produce items of increasing complexity, within an infinite 2D world. Use your imagination to design your factory, combine simple elements into ingenious structures, and finally protect it from the creatures who don't really like you.
+>
+>
+> - [Factorio Official website][website-uri]
+> - [Steam store page][steam-uri]
 
+### Getting started
+
+- To deploy a sample gameserver individually
 ```bash
-task factorio:help
+task factorio:deploy:gs
+# Or if you prefer to use kubectl directly
+kubectl apply -k github.com/gruberdev/gaming/servers/factorio/deploy/gs
 ```
 
 - To deploy a fleet of Factorio servers (with auto-scaling)
 ```bash
 task factorio:deploy:fleet
 # Or if you prefer to use kubectl directly
-kubectl apply -k ./servers/factorio/deploy/fleet
+kubectl apply -k github.com/gruberdev/gaming/servers/factorio/deploy/fleet
 ```
 
-- To deploy a gameserver individually
+- How to request help about CLI commands regarding this game:
+
 ```bash
-task factorio:deploy:gs
-# Or if you prefer to use kubectl directly
-kubectl apply -k ./servers/factorio/deploy/gs
+task factorio:help
 ```
 
 ---
@@ -72,3 +81,9 @@ kubectl apply -k ./servers/factorio/deploy/gs
 [repo-1]: https://github.com/goofball222/factorio
 [repo-2]: https://github.com/mikkilevon/headless-factorio-docker
 [cli-args-uri]: https://wiki.factorio.com/Command_line_parameters
+[badge-img]: https://img.shields.io/docker/v/grubertech/factorio?arch=amd64&label=latest%20version&sort=date&style=flat-square
+[size-badge]: https://img.shields.io/docker/image-size/grubertech/factorio?label=image%20size&sort=date&style=flat-square
+[pulls-badge]: https://img.shields.io/docker/pulls/grubertech/factorio.svg?style=flat-square
+[status-badge]: https://img.shields.io/maintenance/yes/2023?style=flat-square
+[steam-uri]: https://store.steampowered.com/app/427520/Factorio
+[website-uri]: https://www.factorio.com/
