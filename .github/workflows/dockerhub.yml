@@ -1,10 +1,10 @@
-name: Update Docker Hub Description
+name: Update Factorio Dockerhub metadata
 on:
   push:
     branches:
       - main
     paths:
-      - README.md
+      - servers/factorio/README.md
       - .github/workflows/dockerhub-description.yml
 jobs:
   dockerHubDescription:
