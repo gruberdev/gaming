@@ -1,4 +1,4 @@
-## Factorio
+### Factorio
 
 
 - How to request help about CLI commands regarding this game:
