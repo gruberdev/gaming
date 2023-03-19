@@ -44,7 +44,7 @@ spec:
         spec:
           containers:
             - name: terraria-vanilla-fleet
-              image: docker.io/grubertech/terraria:latest
+              image: docker.io/grubertech/terraria:v1.4.4.9
               imagePullPolicy: Always
               envFrom:
                 - configMapRef:

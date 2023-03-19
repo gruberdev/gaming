@@ -2,12 +2,15 @@ version: '3'
 
 silent: true
 
+env:
+  VERSION: v1.4.4.9
+
 tasks:
   build:
     dir: servers/terraria/docker
     cmds:
       - task: go
-      - docker build -t docker.io/grubertech/terraria:latest .
+      - docker build -t docker.io/grubertech/terraria:${VERSION} .
 
   deploy:gs:
     dir: servers/terraria/deploy/gs
@@ -47,7 +50,7 @@ tasks:
   push:
     dir: servers/terraria/docker
     cmds:
-      - docker push docker.io/grubertech/terraria:latest
+      - docker push docker.io/grubertech/terraria:${VERSION}
 
   release:
     cmds:
@@ -78,5 +81,5 @@ tasks:
         -e TERRARIA_WORLDSEED="Test" \
         -e TERRARIA_USECONFIGFILE="Yes" \
         -e TERRARIA_PASS="" \
-        --name=terraria-dedicated docker.io/grubertech/terraria:latest
+        --name=terraria-dedicated docker.io/grubertech/terraria:${VERSION}
     ignore_error: true

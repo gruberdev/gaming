@@ -34,17 +34,16 @@ task Terraria:help
 
 ## Environment Variables
 
-| <h4>Variable name</h3>    | <h4>**Default Value**</h4> | <h4>**Description**</h4> |
-|------------------------|-------------------|-----------------|
-| TERRARIA_WORLDNAME        |                 |                 |
-| TERRARIA_WORLDSEED        |                 |                 |
-| TERRARIA_USECONFIGFILE    |                 |                 |
-| TERRARIA_PASS             |                 |                 |
-| TERRARIA_MOTD             |                 |                 |
-| TERRARIA_MAXPLAYERS       |                 |                 |
-| TERRARIA_WORLDSIZE        |                 |                 |
-| TERRARIA_SHUTDOWN_MESSAGE |                 |                 |
-|                           |                 |                 |
+| <h4>Variable name</h3>    | <h4>**Description**</h4> | <h4>**Default Values**</h4> |
+|-----------------------|----------------------------------------------------------|---------------|
+| TERRARIA_MOTD         | Message of the day displayed in the server               | "A server powered by Kubernetes and Agones!" |
+| TERRARIA_PASS         | Password required to join the server                      | ""            |
+| TERRARIA_MAXPLAYERS   | Maximum number of players allowed on the server           | "16"          |
+| TERRARIA_WORLDNAME    | Name of the Terraria world used by the server                 | "Example"     |
+| TERRARIA_WORLDSIZE    | Size of the world file used by the server                 | "3"           |
+| TERRARIA_WORLDSEED    | Seed used to generate the world file used by the server   | "Docker"      |
+| TERRARIA_USECONFIGFILE| Flag indicating whether the server should use a config file| "No"          |
+
 
 <br>
 <br>
@@ -67,7 +66,7 @@ task Terraria:help
 [wiki-uri]: https://terraria.fandom.com/wiki/Server
 [repo-1]: https://github.com/JACOBSMILE/terraria1.4
 [repo-2]: https://github.com/beardedio/terraria/blob/main/containers/vanilla/1.4.4.9/Dockerfile
-[terraria-logo]: https://static.wikia.nocookie.net/terraria_gamepedia/images/a/a4/NewPromoLogo.png/revision/latest?cb=20200506135559
+[terraria-logo]: https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png
 [docs-1]: https://github.com/googleforgames/agones/tree/release-1.30.0/examples/xonotic
 [badge-img]: https://img.shields.io/docker/v/grubertech/terraria?arch=amd64&label=latest%20version&sort=date&style=flat-square
 [size-badge]: https://img.shields.io/docker/image-size/grubertech/terraria?label=image%20size&sort=date&style=flat-square
