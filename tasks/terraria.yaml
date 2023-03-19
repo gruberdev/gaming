@@ -29,14 +29,14 @@ tasks:
     cmds:
       - kubectl apply -k ./
 
-  delete:fleet:
+  destroy:fleet:
     dir: servers/terraria/deploy/fleet
     cmds:
       - kubectl delete -k ./
 
   recreate:fleet:
     cmds:
-      - task: delete:fleet
+      - task: destroy:fleet
       - task: deploy:fleet
 
   go:

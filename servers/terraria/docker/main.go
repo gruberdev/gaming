@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -38,10 +39,11 @@ func main() {
 	enablePlayerTracking := flag.Bool("player-tracking", true, "If true, player tracking will be enabled.")
 
 	flag.Parse()
+	serverCapacity, err := strconv.ParseInt(os.Getenv("TERRARIA_MAXPLAYERS"), 10, 64)
 
 	s, err := sdk.NewSDK()
 	if *enablePlayerTracking {
-		if err := s.Alpha().SetPlayerCapacity(8); err != nil {
+		if err := s.Alpha().SetPlayerCapacity(serverCapacity); err != nil {
 			log.Fatalf("could not set play count: %v", err)
 		}
 
@@ -57,27 +59,20 @@ func main() {
 		fmt.Println(">>> Starting wrapper for Terraria!")
 		fmt.Printf(">>> Path to Terraria server script: %s %v\n", *input, argsList)
 
-		// track references to listening count
-		listeningCount := 0
-
 		cmd := exec.Command(*input, argsList...) // #nosec
 		cmd.Stderr = &interceptor{forward: os.Stderr}
 		cmd.Stdout = &interceptor{
 			forward: os.Stdout,
 			intercept: func(p []byte) {
-				if listeningCount >= 4 {
-					return
-				}
-
 				action, player := handleLogLine(string(p))
 				switch action {
 				case "READY":
 					if err := s.Ready(); err != nil {
-						log.Fatal("failed to mark server ready")
+						log.Fatal(">>> failed to mark server ready")
 					}
 				case "PLAYERJOIN":
 					if player == nil {
-						log.Print("could not determine player")
+						log.Print(">>> Could not determine player")
 						break
 					}
 					if *enablePlayerTracking {
@@ -90,7 +85,7 @@ func main() {
 					}
 				case "PLAYERLEAVE":
 					if player == nil {
-						log.Print("could not determine player")
+						log.Print(">>> Could not determine player")
 						break
 					}
 					if *enablePlayerTracking {
@@ -107,21 +102,7 @@ func main() {
 					}
 					os.Exit(0)
 				}
-				str := strings.TrimSpace(string(p))
-				if count := strings.Count(str, "Server started"); count > 0 {
-					listeningCount += count
-					fmt.Printf(">>> Found 'listening' statement: %d \n", listeningCount)
-
-					if listeningCount == 1 {
-						fmt.Printf(">>> Moving to READY: %s \n", str)
-						err = s.Ready()
-						if err != nil {
-							log.Fatalf("Could not send ready message")
-						}
-					}
-				}
 			}}
-
 		err = cmd.Start()
 		if err != nil {
 			log.Fatalf(">>> Error Starting Cmd %v", err)
@@ -152,7 +133,7 @@ func handleLogLine(line string) (string, *string) {
 
 	// Start the server
 	if serverStart.MatchString(line) {
-		log.Print("server ready")
+		log.Print(">>> Server ready")
 		return "READY", nil
 	}
 
@@ -160,19 +141,19 @@ func handleLogLine(line string) (string, *string) {
 	if playerJoin.MatchString(line) {
 		matches := playerJoin.FindSubmatch([]byte(line))
 		player := string(matches[1])
-		log.Printf("Player %s joined\n", player)
+		log.Printf(">>> Player %s joined\n", player)
 		return "PLAYERJOIN", &player
 	}
 	if playerLeave.MatchString(line) {
 		matches := playerLeave.FindSubmatch([]byte(line))
 		player := string(matches[1])
-		log.Printf("Player %s disconnected", player)
+		log.Printf(">>> Player %s disconnected", player)
 		return "PLAYERLEAVE", &player
 	}
 
 	// All the players left, send a shutdown
 	if noMorePlayers.MatchString(line) {
-		log.Print("server has no more players. shutting down")
+		log.Print(">>> Server has no more players. shutting down")
 		return "SHUTDOWN", nil
 	}
 	return "", nil

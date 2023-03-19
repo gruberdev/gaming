@@ -29,6 +29,7 @@ spec:
       containers:
         - name: terraria-vanilla-gs
           image: docker.io/grubertech/terraria:latest
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: terraria-cm

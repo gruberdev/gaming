@@ -4,6 +4,13 @@
 ```bash
 task terraria:help
 ```
+
+- To deploy a fleet of Terraria servers (with auto-scaling)
+```bash
+task terraria:deploy:fleet
+# Or if you prefer to use kubectl directly
+kubectl apply -k ./servers/terraria/deploy/fleet
+```
 ---
 
 ## Environment Variables
@@ -19,6 +26,7 @@ task terraria:help
 | TERRARIA_WORLDSIZE        |                 |                 |
 | TERRARIA_SHUTDOWN_MESSAGE |                 |                 |
 |                           |                 |                 |
+
 <br>
 <br>
 

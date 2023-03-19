@@ -1,0 +1,18 @@
+apiVersion: "autoscaling.agones.dev/v1"
+kind: FleetAutoscaler
+metadata:
+  name: terraria-autoscaler
+  labels:
+    game: terraria
+spec:
+  fleetName: terraria-vanilla
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 1
+      minReplicas: 1
+      maxReplicas: 5
+  sync:
+    type: FixedInterval
+    fixedInterval:
+      seconds: 30

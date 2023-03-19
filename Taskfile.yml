@@ -5,22 +5,8 @@ silent: true
 includes:
   terraria: ./tasks/terraria.yaml
   factorio: ./tasks/factorio.yaml
+  mc: ./tasks/minecraft.yaml
+  tf2: ./tasks/teamfortress2.yaml
 
 tasks:
-  tf2:build:
-    dir: servers/tf2/docker
-    cmds:
-      - docker build -t docker.io/grubertech/teamfortress2:latest .
-
-  tf2:push:
-    dir: servers/tf2/docker
-    cmds:
-      - docker build -t docker.io/grubertech/teamfortress2:latest .
-
-  tf2:
-    dir: servers/tf2/docker
-    cmds:
-      - task: tf2:build
-      - task: tf2:push
-
   sdk: sdk-server --local --feature-gates="SDKGracefulTermination=true&CustomFasSyncInterval=true&StateAllocationFilter=true&PlayerAllocationFilter=true&PlayerTracking=true&ResetMetricsOnDelete=true&PodHostname=true&SafeToEvict=true"

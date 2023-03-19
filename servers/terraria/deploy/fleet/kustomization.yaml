@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
 - fleet.yaml
 - cm.yaml
-- pvc.yaml
 - allocation.yaml
+- autoscaler.yaml
