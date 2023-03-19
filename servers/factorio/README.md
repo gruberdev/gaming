@@ -6,6 +6,21 @@
 ```bash
 task factorio:help
 ```
+
+- To deploy a fleet of Factorio servers (with auto-scaling)
+```bash
+task factorio:deploy:fleet
+# Or if you prefer to use kubectl directly
+kubectl apply -k ./servers/factorio/deploy/fleet
+```
+
+- To deploy a gameserver individually
+```bash
+task factorio:deploy:gs
+# Or if you prefer to use kubectl directly
+kubectl apply -k ./servers/factorio/deploy/gs
+```
+
 ---
 
 ## Environment Variables

@@ -6,9 +6,9 @@ import (
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"os/exec"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -73,94 +73,94 @@ func main() {
 				switch action {
 				case "READY":
 					if err := s.Ready(); err != nil {
-						log.Fatal("failed to mark server ready")
+						log.Fatal(">>> failed to mark server ready")
 					}
 				case "PLAYERJOIN":
 					if player == nil {
-						log.Print("could not determine player")
+						log.Print(">>> could not determine player")
 						break
 					}
 					if *enablePlayerTracking {
 						result, err := s.Alpha().PlayerConnect(*player)
 						if err != nil {
 							log.Print(err)
-							} else {
-								log.Print(result)
-							}
+						} else {
+							log.Print(result)
 						}
-					case "PLAYERLEAVE":
-						if player == nil {
-							log.Print("could not determine player")
-							break
+					}
+				case "PLAYERLEAVE":
+					if player == nil {
+						log.Print(">>> could not determine player")
+						break
+					}
+					if *enablePlayerTracking {
+						result, err := s.Alpha().PlayerDisconnect(*player)
+						if err != nil {
+							log.Print(err)
+						} else {
+							log.Print(result)
 						}
-						if *enablePlayerTracking {
-							result, err := s.Alpha().PlayerDisconnect(*player)
-							if err != nil {
-								log.Print(err)
-								} else {
-									log.Print(result)
-								}
-							}
-						case "SHUTDOWN":
-							if err := s.Shutdown(); err != nil {
-								log.Fatal(err)
-							}
-							os.Exit(0)
-						}
-						str := strings.TrimSpace(string(p))
-						if strings.Contains(str, "Opening socket for broadcast") {
-							err = s.Ready()
-							if err != nil {
-								log.Fatalf("Could not send ready message")
-							}
-						}
-					},
+					}
+				case "SHUTDOWN":
+					if err := s.Shutdown(); err != nil {
+						log.Fatal(err)
+					}
+					os.Exit(0)
 				}
-				err := cmd.Start()
-				if err != nil {
-					log.Fatalf(">>> Error Starting Cmd %v", err)
+				str := strings.TrimSpace(string(p))
+				if strings.Contains(str, "Opening socket for broadcast") {
+					err = s.Ready()
+					if err != nil {
+						log.Fatalf("Could not send ready message")
+					}
 				}
-				err = cmd.Wait()
-				log.Fatal(">>> Factorio shutdown unexpectantly", err)
-			}
+			},
 		}
-
-		// doHealth sends the regular Health Pings
-		func doHealth(sdk *sdk.SDK) {
-			tick := time.Tick(2 * time.Second)
-			for {
-				err := sdk.Health()
-				if err != nil {
-					log.Fatalf("[wrapper] Could not send health ping, %v", err)
-				}
-				<-tick
-			}
+		err := cmd.Start()
+		if err != nil {
+			log.Fatalf(">>> Error Starting Cmd %v", err)
 		}
+		err = cmd.Wait()
+		log.Fatal(">>> Factorio shutdown unexpectantly", err)
+	}
+}
 
-		func handleLogLine(line string) (string, *string) {
-			// The various regexes that match server lines
-			playerJoin  := regexp.MustCompile(`(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[JOIN\] (.+) joined the game`)
-			playerLeave := regexp.MustCompile(`(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[LEAVE\] (.+) left the game`)
-			serverStart := regexp.MustCompile(`Opening socket for broadcast`)
-
-			// Start the server
-			if serverStart.MatchString(line) {
-				log.Print("server ready")
-				return "READY", nil
-			}
-
-			// Player tracking
-			if playerJoin.MatchString(line) {
-				matches := playerJoin.FindSubmatch([]byte(line))
-				player := string(matches[2])
-				log.Printf("Player %s joined\n", player)
-				return "PLAYERJOIN", &player
-			}
-			if playerLeave.MatchString(line) {
-				matches := playerLeave.FindSubmatch([]byte(line))
-				player := string(matches[2])
-				log.Printf("Player %s disconnected", player)
-				return "PLAYERLEAVE", &player
-			}
-			return "", nil
+// doHealth sends the regular Health Pings
+func doHealth(sdk *sdk.SDK) {
+	tick := time.Tick(2 * time.Second)
+	for {
+		err := sdk.Health()
+		if err != nil {
+			log.Fatalf("[wrapper] Could not send health ping, %v", err)
 		}
+		<-tick
+	}
+}
+
+func handleLogLine(line string) (string, *string) {
+	// The various regexes that match server lines
+	playerJoin := regexp.MustCompile(`(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[JOIN\] (.+) joined the game`)
+	playerLeave := regexp.MustCompile(`(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[LEAVE\] (.+) left the game`)
+	serverStart := regexp.MustCompile(`Opening socket for broadcast`)
+
+	// Start the server
+	if serverStart.MatchString(line) {
+		log.Print(">>> Server ready")
+		return "READY", nil
+	}
+
+	// Player tracking
+	if playerJoin.MatchString(line) {
+		matches := playerJoin.FindSubmatch([]byte(line))
+		player := string(matches[2])
+		log.Printf(">>> Player %s joined\n", player)
+		return "PLAYERJOIN", &player
+	}
+	if playerLeave.MatchString(line) {
+		matches := playerLeave.FindSubmatch([]byte(line))
+		player := string(matches[2])
+		log.Printf(">>> Player %s disconnected", player)
+		return "PLAYERLEAVE", &player
+	}
+	return "", nil
+}

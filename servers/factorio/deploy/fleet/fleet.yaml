@@ -2,21 +2,17 @@ apiVersion: "agones.dev/v1"
 kind: Fleet
 metadata:
   name: factorio
+  labels:
+    game: factorio
 spec:
-  # the number of GameServers to keep Ready or Allocated in this Fleet
-  replicas: 4
+  replicas: 1
   scheduling: Packed
+  eviction:
+    safe: Always
   strategy:
-    # The replacement strategy for when the GameServer template is changed. Default option is "RollingUpdate",
-    # "RollingUpdate" will increment by maxSurge value on each iteration, while decrementing by maxUnavailable on each
-    # iteration, until all GameServers have been switched from one version to another.
-    # "Recreate" terminates all non-allocated GameServers, and starts up a new set with the new details to replace them.
     type: RollingUpdate
-    # Only relevant when `type: RollingUpdate`
     rollingUpdate:
-      # the amount to increment the new GameServers by. Defaults to 25%
       maxSurge: 25%
-      # the amount to decrements GameServers by. Defaults to 25%
       maxUnavailable: 25%
   template:
     metadata:
@@ -44,7 +40,7 @@ spec:
       template:
         metadata:
           labels:
-            app: factorio
+            game: factorio
         spec:
           containers:
             - name: factorio-fleet
@@ -83,5 +79,13 @@ spec:
               configMap:
                 name: factorio-fleet-config
             - name: data-storage
-              persistentVolumeClaim:
-                claimName: factorio-fleet-data
+              ephemeral:
+                volumeClaimTemplate:
+                  metadata:
+                    labels:
+                      game: factorio
+                  spec:
+                    accessModes: ["ReadWriteOncePod"]
+                    resources:
+                      requests:
+                        storage: 4Gi

@@ -2,15 +2,13 @@ apiVersion: "allocation.agones.dev/v1"
 kind: GameServerAllocation
 metadata:
   name: factorio-policy
+  labels:
+    game: factorio
 spec:
   selectors:
     - matchLabels:
-        game: factorio
+        agones.dev/fleet: factorio
       gameServerState: Ready
       players:
         minAvailable: 0
-        maxAvailable: 32
-  scheduling: Packed
-  metadata:
-    labels:
-      game: factorio
+        maxAvailable: 1
