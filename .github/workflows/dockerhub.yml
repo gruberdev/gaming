@@ -5,7 +5,6 @@ on:
       - main
     paths:
       - README.md
-      - servers/factorio/README.md
       - .github/workflows/dockerhub-description.yml
 jobs:
   dockerHubDescription:
@@ -18,5 +17,5 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         repository: grubertech/factorio
-        short-description: ${{ github.event.repository.description }}
+        short-description: Factorio dedicated server image with Agones integration
         readme-filepath: ./servers/factorio/README.md
