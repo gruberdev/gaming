@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+        - name: server
+          image: noevidenz/multipaper-master:latest
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 0
+          env:
+          - name: EULA
+            value: "true"
+          ports:
+            - name: external
+              containerPort: 25575
+              protocol: TCP
+            - name: mp
+              protocol: TCP
+              containerPort: 35353
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
+          volumeMounts:
+          - mountPath: /app
+            name: app-data
+      volumes:
+        - name: app-data
+          persistentVolumeClaim:
+            claimName: mc-app-vanilla

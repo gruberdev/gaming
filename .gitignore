@@ -1,2 +1,3 @@
 !*/**/secret.yaml
 .vscode
+servers/minecraft/image/binaries/**.jar

@@ -1,0 +1,18 @@
+apiVersion: "autoscaling.agones.dev/v1"
+kind: FleetAutoscaler
+metadata:
+  name: minecraft-autoscaler
+  labels:
+    game: minecraft
+spec:
+  fleetName: minecraft-workers
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 1
+      minReplicas: 1
+      maxReplicas: 5
+  sync:
+    type: FixedInterval
+    fixedInterval:
+      seconds: 30

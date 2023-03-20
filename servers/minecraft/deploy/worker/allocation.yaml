@@ -1,0 +1,14 @@
+apiVersion: "allocation.agones.dev/v1"
+kind: GameServerAllocation
+metadata:
+  name: minecraft-policy
+  labels:
+    game: minecraft
+spec:
+  selectors:
+    - matchLabels:
+        agones.dev/fleet: minecraft-workers
+      gameServerState: Ready
+      players:
+        minAvailable: 0
+        maxAvailable: 1

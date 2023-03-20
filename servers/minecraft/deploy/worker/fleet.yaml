@@ -1,0 +1,83 @@
+apiVersion: "agones.dev/v1"
+kind: Fleet
+metadata:
+  name: minecraft-workers
+  labels:
+    game: minecraft
+spec:
+  replicas: 1
+  scheduling: Distributed
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        game: minecraft
+    spec:
+      container: server
+      eviction:
+        safe: Always
+      ports:
+      - name: Dynamic
+        portPolicy: Static
+        container: server
+        containerPort: 25565
+        protocol: TCP
+      health:
+        disabled: false
+        initialDelaySeconds: 90
+        periodSeconds: 5
+        failureThreshold: 3
+      sdkServer:
+        logLevel: Info
+        grpcPort: 9357
+        httpPort: 9358
+      players:
+        initialCapacity: 1
+      template:
+        spec:
+          initContainers:
+            - name: init-config
+              image: alpine:latest
+              command: ["sh", "-c", "cp /tmp/multipaper.yml /app/multipaper.yml"]
+              volumeMounts:
+                - name: config
+                  mountPath: /tmp/multipaper.yml
+                  subPath: multipaper.yml
+                - name: gamedata
+                  mountPath: /app
+          containers:
+            - name: server
+              image: docker.io/grubertech/minecraft:worker5
+              envFrom:
+                - configMapRef:
+                    name: mc-fleet-config
+              resources:
+                requests:
+                  cpu: 400m
+                  memory: 1Gi
+                limits:
+                  cpu: 700m
+                  memory: 2Gi
+              volumeMounts:
+                - name: config
+                  mountPath: /app/eula.txt
+                  subPath: eula.txt
+                - name: gamedata
+                  mountPath: /app
+          volumes:
+            - name: config
+              configMap:
+                name: mc-fleet-config
+            - name: gamedata
+              ephemeral:
+                volumeClaimTemplate:
+                  metadata:
+                    labels:
+                      game: minecraft
+                      kind: worker
+                  spec:
+                    accessModes: [ "ReadWriteOncePod" ]
+                    resources:
+                      requests:
+                        storage: 5Gi
