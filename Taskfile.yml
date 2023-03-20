@@ -7,6 +7,7 @@ includes:
   factorio: ./tasks/factorio.yaml
   mc: ./tasks/minecraft.yaml
   tf2: ./tasks/teamfortress2.yaml
+  satisfactory: ./tasks/satisfactory.yaml
 
 tasks:
   sdk: sdk-server --local --feature-gates="SDKGracefulTermination=true&CustomFasSyncInterval=true&StateAllocationFilter=true&PlayerAllocationFilter=true&PlayerTracking=true&ResetMetricsOnDelete=true&PodHostname=true&SafeToEvict=true"

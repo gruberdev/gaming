@@ -23,9 +23,9 @@ ENV TERRARIA_WORLDNAME="Example"
 ENV TERRARIA_WORLDSIZE="3"
 ENV TERRARIA_WORLDSEED="Docker"
 ENV TERRARIA_USECONFIGFILE="No"
+
 # Loading a configuration file expects a proper Terraria config file to be mapped to /root/terraria-server/serverconfig.txt
 # Set this to "Yes" if you would rather use a config file instead of the above settings.
-
 
 RUN apt-get update
 RUN apt-get install -y \

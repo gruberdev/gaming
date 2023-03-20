@@ -1,0 +1,67 @@
+version: '3'
+
+silent: true
+
+tasks:
+  build:
+    dir: servers/satisfactory/image
+    cmds:
+      #- task: go
+      - docker build -t docker.io/grubertech/satisfactory:latest .
+
+  deploy:gs:
+    dir: servers/satisfactory/deploy/gs
+    cmds:
+      - kubectl apply -k ./
+
+  delete:gs:
+    dir: servers/satisfactory/deploy/gs
+    cmds:
+      - kubectl delete -k ./
+
+  recreate:gs:
+    cmds:
+      - task: delete:gs
+      - task: deploy:gs
+
+  deploy:fleet:
+    dir: servers/satisfactory/deploy/fleet
+    cmds:
+      - kubectl apply -k ./
+
+  delete:fleet:
+    dir: servers/satisfactory/deploy/fleet
+    cmds:
+      - kubectl delete -k ./
+
+  recreate:fleet:
+    cmds:
+      - task: delete:fleet
+      - task: deploy:fleet
+
+  go:
+    dir: servers/satisfactory/image
+    cmds:
+      - go mod tidy
+
+  push:
+    dir: servers/satisfactory/image
+    cmds:
+      - docker push docker.io/grubertech/satisfactory:latest
+
+  release:
+    cmds:
+      - task: build
+      - task: push
+    ignore_error: true
+
+  clean:volumes:
+    cmds:
+      - docker volume rm satisfactory_data
+    ignore_error: true
+
+  clean:containers:
+    cmds:
+      - docker container stop satisfactory-server
+      - docker container rm satisfactory-server
+    ignore_error: true
