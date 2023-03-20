@@ -4,18 +4,21 @@ kind: Deployment
 metadata:
   name: minecraft
   labels:
-    app: minecraft
+    game: minecraft
+    kind: controller
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: minecraft
+      game: minecraft
+      kind: controller
   template:
     metadata:
       labels:
-        app: minecraft
+        game: minecraft
+        kind: controller
     spec:
       containers:
         - name: server

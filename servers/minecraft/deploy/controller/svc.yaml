@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: mp
   labels:
-    app: minecraft
+    game: minecraft
 spec:
   selector:
-    app: minecraft
+    game: minecraft
+    kind: controller
   ports:
     - name: mp
       port: 35353

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mc-fleet-config
+  labels:
+    game: minecraft
 data:
   JAVA_TOOL_OPTIONS: "-Xmx1G -DmultipaperMasterAddress=mp.agones-system.svc.cluster.local:35353 -Dspigot.settings.bungeecord=true"
   MAX_PLAYERS: "1"
