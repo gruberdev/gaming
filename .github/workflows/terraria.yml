@@ -25,7 +25,7 @@ jobs:
       - name: Extract TERRARIA_VERSION from Dockerfile
         id: terraria_version
         run: |
-          TERRARIA_VERSION=$(grep "ARG TERRARIA_VERSION" Dockerfile | cut -d'=' -f2)
+          TERRARIA_VERSION=$(grep "ARG TERRARIA_VERSION" ./servers/terraria/image/Dockerfile | cut -d'=' -f2)
           echo "TERRARIA_VERSION=$TERRARIA_VERSION"
           echo "TERRARIA_VERSION=$TERRARIA_VERSION" >> $GITHUB_ENV
 
