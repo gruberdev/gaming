@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="225" height="75" src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png">
+  <img width="350" height="120" src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png">
 </p>
 
 <p align="center">
