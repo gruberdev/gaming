@@ -2,11 +2,13 @@
 FROM golang:1.19.1 as builder
 
 # Update package lists and install unzip and curl
-RUN apt-get update && apt-get install -y unzip curl
+RUN apt-get update \
+    && apt-get install -y unzip curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy the local source files to the container's Go workspace
-COPY . /go/src/examples/terraria
-WORKDIR /go/src/examples/terraria
+COPY . /go/src/terraria
+WORKDIR /go/src/terraria
 
 # Tidy the Go module dependencies and build the wrapper binary
 RUN go mod tidy && go build -o wrapper .
@@ -25,7 +27,7 @@ LABEL org.opencontainers.image.title="Terraria (Agones version)"
 LABEL org.opencontainers.image.description="Terraria dedicated servers with Agones integration."
 
 # Set build argument for Terraria version
-ARG TERRARIA_VERSION=1449
+ARG TERRARIA_VERSION=1.4.4.9
 
 # Set environment variables for server configuration
 ENV TERRARIA_MOTD="A server powered by Kubernetes and Agones!"
@@ -37,8 +39,8 @@ ENV TERRARIA_WORLDSEED="Docker"
 ENV TERRARIA_USECONFIGFILE="No"
 
 # Update package lists and install necessary packages, then clean up
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
             wget unzip tmux bash \
             && rm -rf /var/lib/apt/lists/*
 
@@ -46,16 +48,18 @@ RUN apt-get install -y \
 WORKDIR /server
 
 # Download and unzip the Terraria server files
-RUN wget https://terraria.org/api/download/pc-dedicated-server/terraria-server-${TERRARIA_VERSION}.zip \
+RUN TERRARIA_DOWNLOAD=$(echo $TERRARIA_VERSION | tr -d '.') && \
+    echo ${TERRARIA_DOWNLOAD} && \
+    wget https://terraria.org/api/download/pc-dedicated-server/terraria-server-${TERRARIA_DOWNLOAD}.zip \
     -O terraria.zip && \
     unzip -o terraria.zip && \
-    mv ${TERRARIA_VERSION}/* /server && \
+    mv ${TERRARIA_DOWNLOAD}/* /server && \
     rm terraria.zip && \
     mkdir -p /root/.local/share/Terraria/Worlds
 
 # Copy entrypoint.sh script and the built wrapper binary from the builder stage
 COPY entrypoint.sh /tmp/entrypoint.sh
-COPY --from=builder /go/src/examples/terraria /tmp
+COPY --from=builder /go/src/terraria /tmp
 
 # Make the entrypoint script, wrapper binary, and TerrariaServer binary executable
 RUN chmod +x /tmp/entrypoint.sh /tmp/wrapper /server/Linux/TerrariaServer.bin.x86_64
