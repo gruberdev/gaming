@@ -1,4 +1,4 @@
-name: Build and Publish Terraria container image
+name: Terraria Container Image
 
 on:
   push:

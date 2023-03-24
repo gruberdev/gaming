@@ -1,13 +1,25 @@
-![][terraria-logo]
+<div style="text-align:center;">
+  <img src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png" alt="Terraria Logo" style="max-width:400px;">
+</div>
 
-![][badge-img] &nbsp; ![][size-badge] &nbsp; ![][pulls-badge] &nbsp; ![][status-badge]
+<p align="center">
+  <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/v/grubertech/terraria?arch=amd64&label=latest%20version&sort=date&style=flat-square" alt="Latest Version" style="max-width:100%;"></a> &nbsp;
+  <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/image-size/grubertech/terraria?label=image%20size&sort=date&style=flat-square" alt="Image Size" style="max-width:100%;"></a> &nbsp;
+  <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/pulls/grubertech/terraria.svg?style=flat-square" alt="Docker Pulls" style="max-width:100%;"></a> &nbsp;
+  <a href="https://github.com/gruberdev/gaming/pkgs/container/terraria"><img src="https://img.shields.io/github/actions/workflow/status/gruberdev/gaming/terraria.yml?label=image%20build&logo=docker&style=flat-square" alt="CI Badge" style="max-width:100%;"></a>
+</p>
 
-> Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game. Four Pack also available!
->
+> Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game.
 >
 >
 > - [Terraria Official website][website-uri]
 > - [Steam store page][steam-uri]
+>
+> #### Pull the container Image from the mirrors below:
+> &nbsp;
+> [Dockerhub][dockerhub-uri] &nbsp; | &nbsp; [Github Container Registry][pull-link]
+>
+
 
 #### Getting started
 
@@ -31,8 +43,12 @@ kubectl apply -k github.com/gruberdev/gaming/servers/terraria/deploy/fleet
 task Terraria:help
 ```
 
+<br>
+<details>
 
-## Environment Variables
+<summary> <b> Environment Variables (Click to expand)</b> </summary>
+
+<br>
 
 | <h4>Variable name</h3>    | <h4>**Description**</h4> | <h4>**Default Values**</h4> |
 |-----------------------|----------------------------------------------------------|---------------|
@@ -44,8 +60,8 @@ task Terraria:help
 | TERRARIA_WORLDSEED    | Seed used to generate the world file used by the server   | "Docker"      |
 | TERRARIA_USECONFIGFILE| Flag indicating whether the server should use a config file| "No"          |
 
+</details>
 
-<br>
 <br>
 
 ---
@@ -74,3 +90,6 @@ task Terraria:help
 [status-badge]: https://img.shields.io/maintenance/yes/2023?style=flat-square
 [steam-uri]: https://store.steampowered.com/app/105600/Terraria/
 [website-uri]: https://forums.terraria.org/index.php
+[ci-badge]: https://img.shields.io/github/actions/workflow/status/gruberdev/gaming/terraria.yml?label=image%20build&logo=docker&style=flat-square
+[pull-link]: https://github.com/gruberdev/gaming/pkgs/container/terraria
+[dockerhub-uri]: https://hub.docker.com/r/grubertech/terraria
