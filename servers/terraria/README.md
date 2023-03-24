@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="450" height="150" src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png">
+  <img width="225" height="75" src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png">
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ kubectl apply -k github.com/gruberdev/gaming/servers/terraria/deploy/fleet
 - How to request help about CLI commands regarding this game:
 
 ```bash
-task Terraria:help
+task terraria:help
 ```
 
 <br>
