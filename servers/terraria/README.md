@@ -1,6 +1,6 @@
-<div style="text-align:center;">
-  <img src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png" alt="Terraria Logo" style="max-width:400px;">
-</div>
+<p align="center">
+  <img width="450" height="150" src="https://static.wikia.nocookie.net/terraria_gamepedia/images/7/7a/Terraria-official-website-2014.png">
+</p>
 
 <p align="center">
   <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/v/grubertech/terraria?arch=amd64&label=latest%20version&sort=date&style=flat-square" alt="Latest Version" style="max-width:100%;"></a> &nbsp;
