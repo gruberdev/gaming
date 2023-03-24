@@ -24,7 +24,7 @@ LABEL org.opencontainers.image.source="https://github.com/gruberdev/gaming.git"
 LABEL org.opencontainers.image.version="v1.4.4.9"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Terraria (Agones version)"
-LABEL org.opencontainers.image.description="Terraria dedicated servers with Agones integration."
+LABEL org.opencontainers.image.description DESCRIPTION="Terraria dedicated servers with Agones integration."
 
 # Set build argument for Terraria version
 ARG TERRARIA_VERSION=1.4.4.9
