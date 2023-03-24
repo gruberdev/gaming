@@ -3,14 +3,23 @@ version: '3'
 silent: true
 
 env:
-  VERSION: v1.4.4.9
+  TERRARIA_VERSION: v1.4.4.9
 
 tasks:
   build:
     dir: servers/terraria/image
     cmds:
       - task: go
-      - docker build -t docker.io/grubertech/terraria:${VERSION} .
+      - docker build -t docker.io/${DOCKER_USERNAME}/terraria:${TERRARIA_VERSION} .
+      - docker build -t ghcr.io/${GITHUB_USERNAME}/terraria:${TERRARIA_VERSION} .
+
+  docker:login:
+    cmds:
+      - echo "${DOCKER_TOKEN}" | docker login --username ${DOCKER_USERNAME} --password-stdin docker.io
+
+  github:login:
+    cmds:
+      - echo "${GITHUB_TOKEN}" | docker login --username ${GITHUB_USERNAME} --password-stdin ghcr.io
 
   deploy:gs:
     dir: servers/terraria/deploy/gs
@@ -50,7 +59,10 @@ tasks:
   push:
     dir: servers/terraria/image
     cmds:
-      - docker push docker.io/grubertech/terraria:${VERSION}
+      - task: docker:login
+      - docker push docker.io/${DOCKER_USERNAME}/terraria:${TERRARIA_VERSION}
+      - task: github:login
+      - docker push ghcr.io/${GITHUB_USERNAME}/terraria:${TERRARIA_VERSION}
 
   release:
     cmds:
@@ -81,5 +93,5 @@ tasks:
         -e TERRARIA_WORLDSEED="Test" \
         -e TERRARIA_USECONFIGFILE="Yes" \
         -e TERRARIA_PASS="" \
-        --name=terraria-dedicated docker.io/grubertech/terraria:${VERSION}
+        --name=terraria-dedicated docker.io/grubertech/terraria:${TERRARIA_VERSION}
     ignore_error: true
