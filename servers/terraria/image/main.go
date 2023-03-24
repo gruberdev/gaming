@@ -138,19 +138,22 @@ func handleLogLine(line string) (string, *string) {
 	}
 
 	// Player tracking
-	if playerJoin.MatchString(line) {
-		matches := playerJoin.FindSubmatch([]byte(line))
-		player := string(matches[1])
-		log.Printf(">>> Player %s joined\n", player)
-		return "PLAYERJOIN", &player
-	}
-	if playerLeave.MatchString(line) {
-		matches := playerLeave.FindSubmatch([]byte(line))
-		player := string(matches[1])
-		log.Printf(">>> Player %s disconnected", player)
-		return "PLAYERLEAVE", &player
-	}
+	if playerJoin.MatchString(line) || playerLeave.MatchString(line) {
+		var action string
+		var re *regexp.Regexp
 
+		if playerJoin.MatchString(line) {
+						action = "PLAYERJOIN"
+						re = playerJoin
+		} else {
+						action = "PLAYERLEAVE"
+						re = playerLeave
+		}
+			matches := re.FindSubmatch([]byte(line))
+			player := string(matches[1])
+			log.Printf(">>> Player %s %s\n", player, strings.ToLower(action))
+			return action, &player
+	}
 	// All the players left, send a shutdown
 	if noMorePlayers.MatchString(line) {
 		log.Print(">>> Server has no more players. shutting down")
