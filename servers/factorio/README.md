@@ -32,7 +32,10 @@ task factorio:help
 
 ---
 
-## Environment Variables
+<br>
+<details>
+
+<summary> <b> Environment Variables (Click to expand)</b> </summary>
 
 | <h4>Variable name</h4>    | <h4>**Default Value**</h4> | <h4>**Description**</h4> |
 |----------------------------|-------------------|-----------------|
@@ -59,12 +62,12 @@ task factorio:help
 |  FCTR_AUTOSAVE_NONBLOCKING | false             | Whether non-blocking saving is enabled (highly experimental) |
 |  FCTR_ADMINS               |                   | A list of case-insensitive usernames that will be promoted immediately |
 
-
-
-<br>
-<br>
-
 ---
+</details>
+
+<br>
+
+
 
 #### References
 
