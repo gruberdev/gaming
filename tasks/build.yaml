@@ -1,0 +1,43 @@
+version: '3'
+
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - task: go
+      - task: release
+
+  build:
+    dir: image
+    cmds:
+      - task: go
+      - |
+        echo {{.VERSION}} && \
+        docker build \
+        --build-arg VERSION={{.VERSION}} \
+        --platform {{.GAME_ARCH}} \
+        -t \
+        {{.REGISTRY}}/{{.REGISTRY_USER}}/{{.GAME}}:latest \
+        -t \
+        {{.REGISTRY}}/{{.REGISTRY_USER}}/{{.GAME}}:{{.VERSION}} .
+
+  go:
+    dir: image
+    cmds:
+      - go mod tidy
+
+  push:
+    dir: image
+    cmds:
+      - |
+        docker push \
+        {{.REGISTRY}}/{{.REGISTRY_USER}}/{{.GAME}}:latest
+      - |
+        docker push \
+        {{.REGISTRY}}/{{.REGISTRY_USER}}/{{.GAME}}:{{.VERSION}}
+
+  release:
+    cmds:
+      - task: build
+      - task: push
