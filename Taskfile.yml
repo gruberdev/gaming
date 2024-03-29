@@ -3,13 +3,26 @@ version: '3'
 silent: true
 
 dotenv: ['.env', '${HOME}/.env']
+vars:
+  REGISTRY: docker.io
+  REGISTRY_USER: grubertech
+  GAME_ARCH: linux/amd64
 
 includes:
-  terraria: ./tasks/terraria.yaml
-  factorio: ./tasks/factorio.yaml
-  mc: ./tasks/minecraft.yaml
-  tf2: ./tasks/teamfortress2.yaml
-  satisfactory: ./tasks/satisfactory.yaml
+  terraria:
+    aliases: [terraria:build]
+    taskfile: ./tasks/build.yaml
+    dir: ./servers/terraria
+    vars:
+      GAME: terraria
+      VERSION: 1.4.4.9
+  factorio:
+    aliases: [terraria:build]
+    taskfile: ./tasks/build.yaml
+    dir: ./servers/factorio
+    vars:
+      GAME: factorio
+      VERSION: 1.1.104
 
 tasks:
   sdk: sdk-server --local --feature-gates="SDKGracefulTermination=true&CustomFasSyncInterval=true&StateAllocationFilter=true&PlayerAllocationFilter=true&PlayerTracking=true&ResetMetricsOnDelete=true&PodHostname=true&SafeToEvict=true"
