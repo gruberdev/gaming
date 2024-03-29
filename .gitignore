@@ -2,3 +2,6 @@
 .vscode
 servers/minecraft/image/binaries/**.jar
 .env
+.lh
+.history
+.DS_STORE
