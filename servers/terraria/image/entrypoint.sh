@@ -19,6 +19,8 @@ else
   echo -e "Max Players set to: $TERRARIA_MAXPLAYERS"
   echo -e "Server Password set to: $TERRARIA_PASS"
   echo -e "MOTD Set to: $TERRARIA_MOTD"
+  echo -e "Server version: $VERSION"
+
 fi
 
 # If config, we supply it at the command line.

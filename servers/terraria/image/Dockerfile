@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.19.1 as builder
+FROM golang:1.22 as builder
 
 # Update package lists and install unzip and curl
 RUN apt-get update \
@@ -17,26 +17,25 @@ RUN go mod tidy && go build -o wrapper .
 FROM mono:slim
 
 # Add OCI annotations for the image
-LABEL org.opencontainers.image.authors="gruberdev <g@xn--qck4cud2cb.com>"
+LABEL org.opencontainers.image.authors="gruberdev <gh@gruber.dev.br>"
 LABEL org.opencontainers.image.url="https://github.com/gruberdev/gaming/blob/main/servers/terraria"
 LABEL org.opencontainers.image.documentation="https://github.com/gruberdev/gaming/blob/main/servers/terraria/README.md"
 LABEL org.opencontainers.image.source="https://github.com/gruberdev/gaming.git"
-LABEL org.opencontainers.image.version="v1.4.4.9"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Terraria (Agones version)"
 LABEL org.opencontainers.image.description DESCRIPTION="Terraria dedicated servers with Agones integration."
 
-# Set build argument for Terraria version
-ARG TERRARIA_VERSION=1.4.4.9
+ARG VERSION=1.0.0.0
 
 # Set environment variables for server configuration
-ENV TERRARIA_MOTD="A server powered by Kubernetes and Agones!"
-ENV TERRARIA_PASS=""
-ENV TERRARIA_MAXPLAYERS="16"
-ENV TERRARIA_WORLDNAME="Example"
-ENV TERRARIA_WORLDSIZE="3"
-ENV TERRARIA_WORLDSEED="Docker"
-ENV TERRARIA_USECONFIGFILE="No"
+ENV TERRARIA_MOTD="A server powered by Kubernetes and Agones!" \
+    TERRARIA_PASS="" \
+    TERRARIA_MAXPLAYERS="16" \
+    TERRARIA_WORLDNAME="Example" \
+    TERRARIA_WORLDSIZE="3" \
+    TERRARIA_WORLDSEED="Docker" \
+    TERRARIA_USECONFIGFILE="No" \
+    VERSION="$VERSION"
 
 # Update package lists and install necessary packages, then clean up
 RUN apt-get update && \
@@ -48,7 +47,7 @@ RUN apt-get update && \
 WORKDIR /server
 
 # Download and unzip the Terraria server files
-RUN TERRARIA_DOWNLOAD=$(echo $TERRARIA_VERSION | tr -d '.') && \
+RUN TERRARIA_DOWNLOAD=$(echo ${VERSION} | tr -d '.') && \
     echo ${TERRARIA_DOWNLOAD} && \
     wget https://terraria.org/api/download/pc-dedicated-server/terraria-server-${TERRARIA_DOWNLOAD}.zip \
     -O terraria.zip && \
