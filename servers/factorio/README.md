@@ -30,7 +30,6 @@ kubectl apply -k github.com/gruberdev/gaming/servers/factorio/deploy/fleet
 task factorio:help
 ```
 
----
 
 <br>
 <details>
@@ -66,8 +65,6 @@ task factorio:help
 </details>
 
 <br>
-
-
 
 #### References
 
