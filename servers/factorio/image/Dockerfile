@@ -1,6 +1,6 @@
 FROM subchen/frep:1.3.13 as frep
 
-FROM golang:1.19.1 as builder
+FROM golang:1.22 as builder
 
 WORKDIR /go/src/factorio
 RUN apt-get update && apt-get install -y unzip curl
@@ -9,24 +9,30 @@ RUN go mod tidy && go build -o wrapper .
 
 FROM frolvlad/alpine-glibc:alpine-3.9
 
-LABEL maintainer="https://github.com/gruberdev/gaming"
+LABEL org.opencontainers.image.authors="gruberdev <gh@gruber.dev.br>"
+LABEL org.opencontainers.image.url="https://github.com/gruberdev/gaming/blob/main/servers/terraria"
+LABEL org.opencontainers.image.documentation="https://github.com/gruberdev/gaming/blob/main/servers/terraria/README.md"
+LABEL org.opencontainers.image.source="https://github.com/gruberdev/gaming.git"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.title="Factorio (Agones version)"
+LABEL org.opencontainers.image.description DESCRIPTION="Factorio dedicated servers with Agones integration."
 
 ARG USER=factorio
 ARG GROUP=factorio
 ARG PUID=845
 ARG PGID=845
+ARG VERSION=1.0.0
 
 ENV FCTR_PORT=34197 \
     FCTR_RCON_PORT=27015 \
     FCTR_IP=0.0.0.0 \
-    VERSION=1.1.76 \
     FCTR_MAXPLAYERS=32 \
-    SHA1=56bdcb95dbc6d426a51ea2fdd2ff63789a641db7 \
     SAVES=/factorio/saves \
     CONFIG=/config \
     MODS=/factorio/mods \
     SCENARIOS=/factorio/scenarios \
     SCRIPTOUTPUT=/factorio/script-output \
+    VERSION="$VERSION" \
     PUID="$PUID" \
     PGID="$PGID"
 
