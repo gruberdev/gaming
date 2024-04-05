@@ -1,10 +1,13 @@
 FROM subchen/frep:1.3.13 as frep
 
-FROM golang:1.22 as builder
+FROM golang:1.22.2-bookworm as builder
 
 WORKDIR /go/src/factorio
 RUN apt-get update && apt-get install -y unzip curl
 COPY . .
+
+ENV CGO_ENABLED=0
+
 RUN go mod tidy && go build -o wrapper .
 
 FROM frolvlad/alpine-glibc:alpine-3.9
