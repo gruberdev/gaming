@@ -1,6 +1,6 @@
 ![](https://wiki.factorio.com/images/Factorio-logo.png)
 
-![][badge-img] &nbsp; ![][size-badge] &nbsp; ![][pulls-badge] &nbsp; ![][status-badge]
+![][badge-img] &nbsp; ![][size-badge] &nbsp; ![][pulls-badge] &nbsp;
 
 > *Factorio* is a game about building and creating automated factories to produce items of increasing complexity, within an infinite 2D world. Use your imagination to design your factory, combine simple elements into ingenious structures, and finally protect it from the creatures who don't really like you.
 >
@@ -12,24 +12,13 @@
 
 - To deploy a sample gameserver individually
 ```bash
-task factorio:deploy:gs
-# Or if you prefer to use kubectl directly
 kubectl apply -k github.com/gruberdev/gaming/servers/factorio/deploy/gs
 ```
 
-- To deploy a fleet of Factorio servers (with auto-scaling)
+- To deploy a fleet of Factorio servers <sub>(with auto-scaling)</sub>
 ```bash
-task factorio:deploy:fleet
-# Or if you prefer to use kubectl directly
 kubectl apply -k github.com/gruberdev/gaming/servers/factorio/deploy/fleet
 ```
-
-- How to request help about CLI commands regarding this game:
-
-```bash
-task factorio:help
-```
-
 
 <br>
 <details>
