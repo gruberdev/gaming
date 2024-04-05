@@ -8,10 +8,7 @@ spec:
   replicas: 1
   scheduling: Packed
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+    type: Recreate
   template:
     metadata:
       labels:
@@ -21,14 +18,13 @@ spec:
       eviction:
         safe: Always
       ports:
-      - name: default
+      - name: gate
         portPolicy: Dynamic
         container: terraria-vanilla-fleet
         containerPort: 7777
         protocol: TCP
       health:
-        disabled: false
-        initialDelaySeconds: 200
+        initialDelaySeconds: 160
         periodSeconds: 5
         failureThreshold: 3
       sdkServer:
@@ -44,7 +40,7 @@ spec:
         spec:
           containers:
             - name: terraria-vanilla-fleet
-              image: docker.io/grubertech/terraria:v1.4.4.9
+              image: docker.io/grubertech/terraria:1.4.4.9
               imagePullPolicy: Always
               envFrom:
                 - configMapRef:
@@ -58,8 +54,8 @@ spec:
                   cpu: 250m
                   memory: 512Mi
                 limits:
-                  cpu: 2000m
-                  memory: 2Gi
+                  cpu: 1000m
+                  memory: 1280Mi
               volumeMounts:
                 - name: config-volume
                   mountPath: /server/Linux/serverconfig.txt

@@ -6,7 +6,7 @@
   <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/v/grubertech/terraria?arch=amd64&label=latest%20version&sort=date&style=flat-square" alt="Latest Version" style="max-width:100%;"></a> &nbsp;
   <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/image-size/grubertech/terraria?label=image%20size&sort=date&style=flat-square" alt="Image Size" style="max-width:100%;"></a> &nbsp;
   <a href="https://hub.docker.com/r/grubertech/terraria"><img src="https://img.shields.io/docker/pulls/grubertech/terraria.svg?style=flat-square" alt="Docker Pulls" style="max-width:100%;"></a> &nbsp;
-  <a href="https://github.com/gruberdev/gaming/pkgs/container/terraria"><img src="https://img.shields.io/github/actions/workflow/status/gruberdev/gaming/terraria.yml?label=image%20build&logo=docker&style=flat-square" alt="CI Badge" style="max-width:100%;"></a>
+  <a href="https://github.com/gruberdev/gaming/pkgs/container/terraria">
 </p>
 
 > Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game.
@@ -17,30 +17,20 @@
 >
 > #### Pull the container Image from the mirrors below:
 > &nbsp;
-> [Dockerhub][dockerhub-uri] &nbsp; | &nbsp; [Github Container Registry][pull-link]
->
+> [Dockerhub][dockerhub-uri] &nbsp;
 
 
 #### Getting started
 
 - To deploy a sample gameserver individually
 ```bash
-task terraria:deploy:gs
-# Or if you prefer to use kubectl directly
 kubectl apply -k github.com/gruberdev/gaming/servers/terraria/deploy/gs
 ```
 
-- To deploy a fleet of Terraria servers (with auto-scaling)
+- To deploy a fleet of Terraria servers <sub>(with auto-scaling)</sub>
+
 ```bash
-task terraria:deploy:fleet
-# Or if you prefer to use kubectl directly
 kubectl apply -k github.com/gruberdev/gaming/servers/terraria/deploy/fleet
-```
-
-- How to request help about CLI commands regarding this game:
-
-```bash
-task terraria:help
 ```
 
 <br>
