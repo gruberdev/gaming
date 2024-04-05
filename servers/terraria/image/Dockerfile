@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.22 as builder
+FROM golang:1.22.2-bookworm as builder
 
 # Update package lists and install unzip and curl
 RUN apt-get update \
@@ -10,11 +10,13 @@ RUN apt-get update \
 COPY . /go/src/terraria
 WORKDIR /go/src/terraria
 
+ENV CGO_ENABLED=0
+
 # Tidy the Go module dependencies and build the wrapper binary
 RUN go mod tidy && go build -o wrapper .
 
 # Final image stage
-FROM mono:slim
+FROM golang:1.22.2-bookworm
 
 # Add OCI annotations for the image
 LABEL org.opencontainers.image.authors="gruberdev <gh@gruber.dev.br>"
