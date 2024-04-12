@@ -13,8 +13,8 @@ RUN go mod tidy && go build -o wrapper .
 FROM frolvlad/alpine-glibc:alpine-3.9
 
 LABEL org.opencontainers.image.authors="gruberdev <gh@gruber.dev.br>"
-LABEL org.opencontainers.image.url="https://github.com/gruberdev/gaming/blob/main/servers/terraria"
-LABEL org.opencontainers.image.documentation="https://github.com/gruberdev/gaming/blob/main/servers/terraria/README.md"
+LABEL org.opencontainers.image.url="https://github.com/gruberdev/gaming/blob/main/servers/factorio"
+LABEL org.opencontainers.image.documentation="https://github.com/gruberdev/gaming/blob/main/servers/factorio/README.md"
 LABEL org.opencontainers.image.source="https://github.com/gruberdev/gaming.git"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Factorio (Agones version)"
